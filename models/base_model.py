@@ -2,13 +2,15 @@
 """Base Model module"""
 from uuid import uuid4
 from datetime import datetime
+from models import storage
+
 
 class BaseModel():
     """
     defines all base attributes to used by other classes of the program
     id (string): uniq identifier of object
     created_at (datetime): records time an object was created
-    updated_at (datetime): records the current time with each change of the object
+    updated_at (datetime): records current time with each change of the object
     """
     def __init__(self, *args, **kwargs):
         if kwargs:
@@ -22,6 +24,7 @@ class BaseModel():
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self.to_dict())
 
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
@@ -29,6 +32,9 @@ class BaseModel():
     def save(self):
         """ updates the update_at attribute with the current time"""
         self.updated_at = datetime.now()
+        dct = storage.all()
+        dct[self.__class__.__name__+"."+self.id] = self.to_dict()
+        storage.save()
 
     def to_dict(self):
         """ Creates a dictionary representation of the object"""
