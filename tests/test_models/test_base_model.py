@@ -27,8 +27,7 @@ class TestBaseModel(unittest.TestCase):
     def test_to_dict_contains_expected_keys(self):
         expected_keys = ['id', 'created_at', 'updated_at', '__class__']
         obj_dict = self.base_model.to_dict()
-        for key in expected_keys:
-            self.assertIn(key, obj_dict)
+        self.assertCountEqual(obj_dict.keys(), expected_keys)
 
     def test_str_representation(self):
         expected_str = "[BaseModel] ({}) {}".format(self.base_model.id, self.base_model.__dict__)
@@ -37,4 +36,3 @@ class TestBaseModel(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
