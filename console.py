@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """ Module for a custom python console """
 import cmd
-import utils
 import models as mddl
+import utils as utl
 
 
 class HBNBCommand(cmd.Cmd):
@@ -35,13 +35,13 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         'prints string representation of instance based on class name and id'
-        args = utils.validate_args(arg)
+        args = utl.validate_args(arg)
         if args:
             print(mddl.storage.all().get(args[0]+"."+args[1]))
 
     def do_destroy(self, arg):
         'Deletes an instance based on the class name and id'
-        args = utils.validate_args(arg)
+        args = utl.validate_args(arg)
         if args:
             store_objects = mddl.storage.all()
             del store_objects[args[0]+"."+args[1]]
@@ -63,11 +63,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         'Updates an instance based on class name and id'
-        args = utils.validate_update_args(arg)
+        args = utl.validate_update_args(arg)
         if not args:
             return
         obj = mddl.storage.all().get(args[0]+"."+args[1])
-        obj.__setattr__(args[2], utils.cast_to_type(args[3]))
+        obj.__setattr__(args[2], utl.cast_to_type(args[3]))
         mddl.storage.save()
 
 

@@ -2,7 +2,6 @@
 """ Module holds classes for managing data storage """
 import json
 from os import path
-import models
 
 
 class FileStorage():
@@ -11,7 +10,7 @@ class FileStorage():
         dictionaries to json and saves them to file
         Attributes:
             file_path (str): path of the file for saving object data
-            objects (dict): dictionary record of all objects in storage
+            objects (dict): private dictionary record of all objects in storage
     """
     __file_path = "file.json"
     __objects = {}
@@ -48,9 +47,10 @@ class FileStorage():
             Loads and reads stored data from a json file
             and stores into objects dictionaty
         """
-        from models import base_model as mdl
         if path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as fl:
                 temp_objects = json.load(fl)
+                import utils as utls
                 for key, value in temp_objects.items():
-                    FileStorage.__objects[key] = mdl.BaseModel(**value)
+                    cls = utls.classes[key.split(".")[0]]
+                    FileStorage.__objects[key] = cls(**value)
