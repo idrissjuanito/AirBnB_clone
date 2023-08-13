@@ -1,64 +1,68 @@
-#!/usr/bin/python3
-""" Test Module for file storage """
 import unittest
-from unittest.mock import patch
-import json
 import os
-from models.engine.file_storage import FileStorage
+import json
+from models.file_storage import FileStorage
+from models.user import User
+from models.amenity import Amenity
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.review import Review
 
 
-class TestFileStorage(unittest.TestCase):
-    """ Test cases for file storage """
-
+class TestFileStorageClass(unittest.TestCase):
     def setUp(self):
         self.file_path = "test_file.json"
-        FileStorage._FileStorage__file_path = self.file_path
         self.file_storage = FileStorage()
+        self.file_storage._FileStorage__file_path = self.file_path
 
     def tearDown(self):
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
 
-    def test_all_returns_objects_dict(self):
-        objects = self.file_storage.all()
-        self.assertIsInstance(objects, dict)
-        self.assertEqual(objects, FileStorage._FileStorage__objects)
+    def test_initialization(self):
+        self.assertEqual(self.file_storage._FileStorage__file_path, self.file_path)
+        self.assertEqual(self.file_storage._FileStorage__objects, {})
 
-    def test_new_adds_object_to_objects_dict(self):
-        test_obj = {'__class__': 'TestClass', 'id': 'test_id'}
-        self.file_storage.new(test_obj)
-        self.assertIn('TestClass.test_id', self.file_storage.all())
+    def test_all(self):
+        all_objects = self.file_storage.all()
+        self.assertEqual(all_objects, {})
 
-    def test_save_writes_to_file(self):
-        test_obj = {'__class__': 'TestClass', 'id': 'test_id'}
-        self.file_storage.new(test_obj)
+    def test_new(self):
+        user = User()
+        self.file_storage.new(user)
+        all_objects = self.file_storage.all()
+        self.assertEqual(len(all_objects), 1)
+        self.assertIn("User.{}".format(user.id), all_objects)
+
+    def test_save_and_reload(self):
+        user = User()
+        amenity = Amenity()
+        state = State()
+        city = City()
+        place = Place()
+        review = Review()
+
+        self.file_storage.new(user)
+        self.file_storage.new(amenity)
+        self.file_storage.new(state)
+        self.file_storage.new(city)
+        self.file_storage.new(place)
+        self.file_storage.new(review)
         self.file_storage.save()
 
-        with open(self.file_path, 'r') as f:
-            data = json.load(f)
-            self.assertIn('TestClass.test_id', data)
+        loaded_storage = FileStorage()
+        loaded_storage._FileStorage__file_path = self.file_path
+        loaded_storage.reload()
 
-    def test_reload_loads_from_file(self):
-        test_obj = {'__class__': 'TestClass', 'id': 'test_id'}
-        self.file_storage.new(test_obj)
-        self.file_storage.save()
-
-        new_file_storage = FileStorage()
-        new_file_storage.reload()
-
-        self.assertIn('TestClass.test_id', new_file_storage.all())
-
-    @patch('os.path.exists')
-    def test_reload_does_not_fail_if_file_not_found(self, mock_exists):
-        mock_exists.return_value = False
-        self.file_storage.reload()
-
-    @patch('os.path.exists')
-    def test_reload_does_not_fail_on_empty_file(self, mock_exists):
-        mock_exists.return_value = True
-        with open(self.file_path, 'w') as f:
-            f.write('')
-        self.file_storage.reload()
+        loaded_objects = loaded_storage.all()
+        self.assertEqual(len(loaded_objects), 6)
+        self.assertIn("User.{}".format(user.id), loaded_objects)
+        self.assertIn("Amenity.{}".format(amenity.id), loaded_objects)
+        self.assertIn("State.{}".format(state.id), loaded_objects)
+        self.assertIn("City.{}".format(city.id), loaded_objects)
+        self.assertIn("Place.{}".format(place.id), loaded_objects)
+        self.assertIn("Review.{}".format(review.id), loaded_objects)
 
 
 if __name__ == '__main__':
