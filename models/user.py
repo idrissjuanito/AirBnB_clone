@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ User module for managing users """
-from models import base_model
+from models.base_model import BaseModel
 
 
-class User(base_model.BaseModel):
+class User(BaseModel):
     """
         User class for creating users
         Attributes:
