@@ -26,12 +26,13 @@ class HBNBCommand(cmd.Cmd):
         if len(arg) == 0:
             print("** class name missing **")
             return
-        elif arg != "BaseModel":
+        if not utl.check_cls_exists(arg):
             print("** class doesn't exist **")
             return
-        new_base = mddl.base_model.BaseModel()
+        cls = utl.classes[arg]
+        new_cls = cls()
         mddl.storage.save()
-        print(new_base.id)
+        print(new_cls.id)
 
     def do_show(self, arg):
         'prints string representation of instance based on class name and id'
@@ -54,7 +55,7 @@ class HBNBCommand(cmd.Cmd):
             for key, val in mddl.storage.all().items():
                 str_reprs.append(val.__str__())
         else:
-            if not utils.check_cls_exists(arg):
+            if not utl.check_cls_exists(arg):
                 return
             for key, val in mddl.storage.all().items():
                 if key.split(".")[0] == arg:
