@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Contains helper functions """
-from models import storage, base_model
-classes = {"BaseModel": base_model.BaseModel}
+from models import storage, base_model, user
+classes = {"BaseModel": base_model.BaseModel, "User": user.User}
 
 
 def check_cls_exists(cls_name):
