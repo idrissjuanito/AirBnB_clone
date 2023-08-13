@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Contains helper functions """
-import models as mdel
-classes = {"BaseModel": mdel.base_model.BaseModel}
+from models import storage, base_model
+classes = {"BaseModel": base_model.BaseModel}
 
 
 def check_cls_exists(cls_name):
@@ -33,7 +33,7 @@ def validate_args(args):
     elif len(args) < 2:
         print("** instance id missing **")
         return None
-    elif not args[0]+"."+args[1] in mdel.storage.all().keys():
+    elif not args[0]+"."+args[1] in storage.all().keys():
         print("** no instance found **")
         return None
     return args
