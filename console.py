@@ -43,38 +43,57 @@ class HBNBCommand(cmd.Cmd):
         'prints string representation of instance based on class name and id'
         args = utl.validate_args(arg)
         if args:
-            print(mddl.storage.all().get(args[0]+"."+args[1]))
+            key = args[0] + "." + args[1]
+            obj = mddl.storage.all().get(key)
+            if obj is None:
+                print("** no instance found **")
+            else:
+                print(obj)
 
     def do_destroy(self, arg):
         'Deletes an instance based on the class name and id'
         args = utl.validate_args(arg)
         if args:
-            store_objects = mddl.storage.all()
-            del store_objects[args[0]+"."+args[1]]
-            mddl.storage.save()
+            key = args[0] + "." + args[1]
+            obj = mddl.storage.all().get(key)
+            if obj is None:
+                print("** no instance found **")
+            else:
+                del mddl.storage.all()[key]
+                mddl.storage.save()
 
     def do_all(self, arg):
         'Prints all string representation of all instances based on class name'
-        str_reprs = list()
+        str_reprs = []
         if len(arg) == 0:
-            for key, val in mddl.storage.all().items():
-                str_reprs.append(val.__str__())
+            print([str(val) for val in mddl.storage.all().values()])
         else:
             if not utl.check_cls_exists(arg):
                 return
-            for key, val in mddl.storage.all().items():
-                if key.split(".")[0] == arg:
-                    str_reprs.append(val.__str__())
-        print(str_reprs)
+            print([str(val) for key, val in mddl.storage.all().items() if key.split(".")[0] == arg])
 
     def do_update(self, arg):
         'Updates an instance based on class name and id'
         args = utl.validate_update_args(arg)
         if not args:
             return
-        obj = mddl.storage.all().get(args[0]+"."+args[1])
-        obj.__setattr__(args[2], utl.cast_to_type(args[3]))
+        key = args[0] + "." + args[1]
+        obj = mddl.storage.all().get(key)
+        if obj is None:
+            print("** no instance found **")
+            return
+        if len(args) < 4:
+            print("** attribute name missing **")
+            return
+        setattr(obj, args[2], utl.cast_to_type(args[3]))
         mddl.storage.save()
+
+    def do_count(self, arg):
+        'Counts the number of instances of a class'
+        if not utl.check_cls_exists(arg):
+            return
+        count = len([val for key, val in mddl.storage.all().items() if key.split(".")[0] == arg])
+        print(count)
 
 
 if __name__ == '__main__':
