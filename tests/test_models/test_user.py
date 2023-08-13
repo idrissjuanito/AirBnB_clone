@@ -1,8 +1,11 @@
+#!/usr/bin/python3
+""" Test Module for User class """
 import unittest
 from models.user import User
 
 
 class TestUserClass(unittest.TestCase):
+    """ test cases for User class attributes and methods """
     def test_initialization(self):
         user_data = {
             'id': 'test_id',
@@ -60,7 +63,12 @@ class TestUserClass(unittest.TestCase):
         user = User(**user_data)
         user_str = str(user)
 
-        self.assertEqual(user_str, "[User] (test_id) {'email': 'test@example.com', 'password': 'testpass', 'first_name': 'John', 'last_name': 'Doe'}")
+        fn = "'first_name': 'John'"
+        ln = "'last_name': 'Doe'"
+        mail = "'email': 'test@example.com'"
+        pw = "'password': 'testpass'"
+        result = "[User] (test_id) {"+mail+", "+pw+", "+fn+", "+ln+"}"
+        self.assertEqual(user_str, result)
 
 
 if __name__ == '__main__':

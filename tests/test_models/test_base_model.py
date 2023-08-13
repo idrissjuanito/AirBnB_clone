@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+""" Test Module for base model """
 import unittest
 from unittest.mock import patch
 from datetime import datetime
@@ -5,6 +7,7 @@ from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
+    """ test cases for the base model attributes and methods """
 
     def setUp(self):
         self.base_model = BaseModel()
