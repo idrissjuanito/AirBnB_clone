@@ -2,8 +2,9 @@
 """ Contains helper functions """
 from models.engine import file_storage
 from models import storage
-
 classes = file_storage.classes
+
+
 def check_cls_exists(cls_name):
     """ checks if a class name exists
         params:

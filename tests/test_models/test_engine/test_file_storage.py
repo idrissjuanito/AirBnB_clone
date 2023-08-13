@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+""" Test Module for file storage """
 import unittest
 from unittest.mock import patch
 import json
@@ -6,6 +8,7 @@ from models.engine.file_storage import FileStorage
 
 
 class TestFileStorage(unittest.TestCase):
+    """ Test cases for file storage """
 
     def setUp(self):
         self.file_path = "test_file.json"
