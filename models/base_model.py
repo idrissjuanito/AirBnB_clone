@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Base Model module"""
+""" Base Model module """
 from uuid import uuid4
 from datetime import datetime
 import models as mdll

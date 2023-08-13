@@ -17,7 +17,6 @@ class TestUserClass(unittest.TestCase):
         }
 
         user = User(**user_data)
-
         self.assertEqual(user.id, 'test_id')
         self.assertEqual(user.created_at, '2023-08-13T12:00:00')
         self.assertEqual(user.email, 'test@example.com')
@@ -44,10 +43,8 @@ class TestUserClass(unittest.TestCase):
             'first_name': 'John',
             'last_name': 'Doe'
         }
-
         user = User(**user_data)
         user_dict = user.to_dict()
-
         self.assertEqual(user_dict, user_data)
 
     def test_str_representation(self):
@@ -62,7 +59,6 @@ class TestUserClass(unittest.TestCase):
 
         user = User(**user_data)
         user_str = str(user)
-
         fn = "'first_name': 'John'"
         ln = "'last_name': 'Doe'"
         mail = "'email': 'test@example.com'"

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" State module for managing states"""
+""" State module for managing states """
 from models.base_model import BaseModel
 
 

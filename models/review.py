@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Review module for managing reviews"""
+""" Review module for managing reviews """
 from models.base_model import BaseModel
 
 

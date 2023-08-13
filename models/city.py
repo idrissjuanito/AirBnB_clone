@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" City module for managing cities"""
+""" City module for managing cities """
 from models.base_model import BaseModel
 
 

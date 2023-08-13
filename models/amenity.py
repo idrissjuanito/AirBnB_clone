@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Amenity module for managing amenities"""
+""" Amenity module for managing amenities """
 from models.base_model import BaseModel
 
 
