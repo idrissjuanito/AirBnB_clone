@@ -2,6 +2,9 @@
 """ Module holds classes for managing data storage """
 import json
 from os import path
+from models.user import User
+from models.base_model import BaseModel
+classes = {"BaseModel": BaseModel, "User": User}
 
 
 class FileStorage():
@@ -50,7 +53,6 @@ class FileStorage():
         if path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as fl:
                 temp_objects = json.load(fl)
-                import utils as utls
                 for key, value in temp_objects.items():
-                    cls = utls.classes[key.split(".")[0]]
+                    cls = classes[key.split(".")[0]]
                     FileStorage.__objects[key] = cls(**value)

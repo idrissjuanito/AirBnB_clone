@@ -3,6 +3,7 @@
 import cmd
 import models as mddl
 import utils as utl
+classes = mddl.engine.file_storage.classes
 
 
 class HBNBCommand(cmd.Cmd):
@@ -21,6 +22,10 @@ class HBNBCommand(cmd.Cmd):
         'Quit command to exit the program\n'
         return True
 
+    def emptyline(self):
+        """ handles empty line on prompt """
+        pass
+
     def do_create(self, arg):
         'Creates a new instance of the BaseModel class'
         if len(arg) == 0:
@@ -29,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
         if not utl.check_cls_exists(arg):
             print("** class doesn't exist **")
             return
-        cls = utl.classes[arg]
+        cls = classes[arg]
         new_cls = cls()
         mddl.storage.save()
         print(new_cls.id)
