@@ -30,7 +30,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertCountEqual(obj_dict.keys(), expected_keys)
 
     def test_str_representation(self):
-        expected_str = "[BaseModel] ({}) {}".format(self.base_model.id, self.base_model.__dict__)
+        dictio = self.base_model.__dict__
+        expected_str = "[BaseModel] ({}) {}".format(self.base_model.id, dictio)
         self.assertEqual(str(self.base_model), expected_str)
 
 
