@@ -15,7 +15,6 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def default(self, line):
-        print("default ran")
         args = line.split(".")
         if len(args) < 2:
             return
@@ -54,6 +53,17 @@ class HBNBCommand(cmd.Cmd):
         args = utl.validate_args(arg)
         if args:
             print(mddl.storage.all().get(args[0]+"."+args[1]))
+
+    def do_count(self, line):
+        'Counts instances of a class'
+        if not utl.check_cls_exists(line):
+            return
+        count = 0
+        for key in mddl.storage.all().keys():
+            if key.startswith(line):
+                count += 1
+        print(count)
+
 
     def do_destroy(self, arg):
         'Deletes an instance based on the class name and id'
