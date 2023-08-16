@@ -14,6 +14,17 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
+    def default(self, line):
+        print("default ran")
+        args = line.split(".")
+        if len(args) < 2:
+            return
+        ln = args[1].split("(")[0]+" "+args[0]
+        r = super(HBNBCommand, self).onecmd(ln)
+        if r:
+            print("*** unknown syntax: "+line)
+        return
+
     def do_EOF(self, arg):
         'EOF command to exit the program\n'
         return True
@@ -32,7 +43,6 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         if not utl.check_cls_exists(arg):
-            print("** class doesn't exist **")
             return
         cls = classes[arg]
         new_cls = cls()
