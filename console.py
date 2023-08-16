@@ -17,13 +17,16 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         args = line.split(".")
         ln = ""
-        if len(args) >= 2:
-            sub = args[1].split("(")
-            cmd_name = sub[0]
-            ln = cmd_name+" "+args[0]
-            if (sub[1].startswith("\"")):
-                sub_args = sub[1].split("\"")
-                ln = ln+" "+sub_args[1]
+        if len(args) < 2:
+            return
+        sub = args[1].split("(")
+        cmd_name = sub[0]
+        ln = cmd_name+" "+args[0]
+        if (sub[1].startswith("\"")):
+            sub_args = sub[1].split("\"")
+            for arg in sub_args:
+                if not arg.startswith(",") and arg != ")":
+                    ln = ln+" "+arg
         r = super(HBNBCommand, self).onecmd(ln)
         if r:
             print("*** unknown syntax: "+line)
