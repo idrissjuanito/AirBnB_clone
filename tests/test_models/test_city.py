@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-=======
-#!/usr/bin/python3
-""" test module for city class """
->>>>>>> 48ccca7db0dfc31f9f251a04ab245935b9ac762e
 import unittest
 from models.city import City
 
 
 class TestCityClass(unittest.TestCase):
-<<<<<<< HEAD
     def test_initialization(self):
         city_data = {
             'id': 'test_id',
@@ -61,8 +55,3 @@ class TestCityClass(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-=======
-    """ Test cases for attributes and methods in city class """
-    def test_city_name(self):
-        pass
->>>>>>> 48ccca7db0dfc31f9f251a04ab245935b9ac762e
