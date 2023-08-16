@@ -16,9 +16,14 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, line):
         args = line.split(".")
-        if len(args) < 2:
-            return
-        ln = args[1].split("(")[0]+" "+args[0]
+        ln = ""
+        if len(args) >= 2:
+            sub = args[1].split("(")
+            cmd_name = sub[0]
+            ln = cmd_name+" "+args[0]
+            if (sub[1].startswith("\"")):
+                sub_args = sub[1].split("\"")
+                ln = ln+" "+sub_args[1]
         r = super(HBNBCommand, self).onecmd(ln)
         if r:
             print("*** unknown syntax: "+line)
@@ -63,7 +68,6 @@ class HBNBCommand(cmd.Cmd):
             if key.startswith(line):
                 count += 1
         print(count)
-
 
     def do_destroy(self, arg):
         'Deletes an instance based on the class name and id'
