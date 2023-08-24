@@ -90,3 +90,7 @@ ul {
 .locations {
   border-right: solid 1px #DDDDDD;
 }
+
+.popover h2 {
+  font-size: 16px;
+}
